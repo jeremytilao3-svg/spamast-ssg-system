@@ -6,25 +6,25 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    // One method per role. All show the same page for now (real dashboards come in step 4.7)
+    // One method per role, each showing its own dashboard page
 
     public function admin(): View
     {
-        return view('main');
+        return view('dashboards.admin');
     }
 
     public function officer(): View
     {
-        return view('main');
+        return view('dashboards.officer');
     }
 
     public function adviser(): View
     {
-        return view('main');
+        return view('dashboards.adviser');
     }
 
     public function student(): View
     {
-        return view('main');
+        return view('dashboards.student');
     }
 }
