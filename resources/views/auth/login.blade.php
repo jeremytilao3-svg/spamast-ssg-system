@@ -1,37 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login</title>
+    <title>Login</title>
 </head>
 <body>
     <h1>SPAMAST SSG QR Attendance System</h1>
-    <h2>Student Login</h2>
+    <h2>Login</h2>
 
-    @if ($errors->any())
-        <p style="color: red;">
-            {{ $errors->first() }}
-        </p>
+    {{-- Success message (for example after registering) --}}
+    @if (session('success'))
+        <div style="color: green;">{{ session('success') }}</div>
     @endif
 
-    <form method="POST" action="{{ url('/login') }}">
+    {{-- Show validation errors, if any --}}
+    @if ($errors->any())
+        <div style="color: red;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('login.store') }}">
         @csrf
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
-        <br><br>
-
-        <label>Password:</label>
-        <input type="password" name="password" required>
-        <br><br>
+        <p>
+            <label>Email</label><br>
+            <input type="email" name="email" value="{{ old('email') }}" required>
+        </p>
+        <p>
+            <label>Password</label><br>
+            <input type="password" name="password" required>
+        </p>
 
         <button type="submit">Login</button>
     </form>
 
-    <p>Don't have an account?
-        <a href="{{ url('/register') }}">Register here</a>
-    </p>
+    <p>No account yet? <a href="{{ route('register') }}">Register here</a></p>
 </body>
 </html>
