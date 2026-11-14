@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Gates: named yes/no rules based on the user's role
+
+        // Only Officers can manage the SSG (events, fines, and so on)
+        Gate::define('manage-ssg', fn (User $user) => $user->hasRole('Officer'));
+
+        // Officers and Advisers can view reports
+        Gate::define('view-reports', fn (User $user) => $user->hasRole('Officer', 'Adviser'));
+
+        // Only Students use the attendance (QR) feature
+        Gate::define('use-attendance', fn (User $user) => $user->hasRole('Student'));
     }
 }
