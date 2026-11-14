@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,7 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Short name "role" for our role-checking middleware (used as role:Admin)
+        $middleware->alias([
+            'role' => EnsureUserHasRole::class,
+        ]);
+
+        // A logged-in user who opens /login or /register goes to their own dashboard
+        $middleware->redirectUsersTo(fn () => route(auth()->user()->dashboardRoute()));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

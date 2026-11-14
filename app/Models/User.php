@@ -40,4 +40,21 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    // True if the user's role is one of the given names, e.g. hasRole('Admin', 'Officer')
+    public function hasRole(string ...$names): bool
+    {
+        return in_array($this->role?->name, $names, true);
+    }
+
+    // The name of the dashboard route for this user's role (Student is the default)
+    public function dashboardRoute(): string
+    {
+        return match ($this->role?->name) {
+            'Admin'   => 'admin.dashboard',
+            'Officer' => 'officer.dashboard',
+            'Adviser' => 'adviser.dashboard',
+            default   => 'student.dashboard',
+        };
+    }
 }

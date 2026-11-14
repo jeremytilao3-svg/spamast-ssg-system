@@ -24,7 +24,7 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        // 2. Try to log in ("remember" is for the Remember Me checkbox, added later)
+        // 2. Try to log in ("remember" is the Remember Me checkbox)
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()
                 ->withErrors(['email' => 'The email or password is incorrect.'])
@@ -42,10 +42,11 @@ class LoginController extends Controller
                 ->onlyInput('email');
         }
 
-        // 4. Start a fresh session, then go to the page they wanted (or /main)
+        // 4. Start a fresh session, then go to the page they wanted
+        //    (or to the dashboard that matches their role)
         $request->session()->regenerate();
 
-        return redirect()->intended(route('main'));
+        return redirect()->intended(route($request->user()->dashboardRoute()));
     }
 
     // Log out (runs when the logout form is submitted)
