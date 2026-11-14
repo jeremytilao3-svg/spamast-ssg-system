@@ -11,6 +11,9 @@
     <p>Welcome, {{ auth()->user()->first_name }}!</p>
     <p>Role: {{ auth()->user()->role->name }}</p>
 
+    {{-- Link to the profile page --}}
+    <p><a href="{{ route('profile.edit') }}">My Profile</a></p>
+
     {{-- Logout must be a POST form with @csrf --}}
     <form method="POST" action="{{ route('logout') }}">
         @csrf
