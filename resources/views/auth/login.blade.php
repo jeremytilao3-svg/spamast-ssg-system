@@ -36,6 +36,13 @@
             <input type="password" name="password" required>
         </p>
 
+        {{-- Remember me: value="1" is sent when the box is ticked --}}
+        <p>
+            <label>
+                <input type="checkbox" name="remember" value="1"> Remember me
+            </label>
+        </p>
+
         <button type="submit">Login</button>
     </form>
 
