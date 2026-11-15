@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\Officer\StudentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 
@@ -51,9 +52,12 @@ Route::middleware(['auth', 'role:Admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('programs', ProgramController::class)->except('show');
 });
 
-// Officer area: URL /officer/dashboard, route name officer.dashboard
+// Officer area: URL /officer/..., route names officer....
 Route::middleware(['auth', 'role:Officer'])->prefix('officer')->name('officer.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'officer'])->name('dashboard');
+
+    // Manage students (no "show" page)
+    Route::resource('students', StudentController::class)->except('show');
 });
 
 // Adviser area: URL /adviser/dashboard, route name adviser.dashboard
