@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Penalty extends Model
 {
@@ -15,5 +16,17 @@ class Penalty extends Model
         return [
             'amount' => 'decimal:2',   // money with 2 decimals
         ];
+    }
+
+    // The event this penalty is for
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class);
+    }
+
+    // The student who has the penalty
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
     }
 }

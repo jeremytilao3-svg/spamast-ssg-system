@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Attendance extends Model
 {
@@ -19,5 +20,17 @@ class Attendance extends Model
             'check_in_at'  => 'datetime',   // a date-and-time object
             'check_out_at' => 'datetime',
         ];
+    }
+
+    // The session this row belongs to (the method is "session", but the model is EventSession)
+    public function session(): BelongsTo
+    {
+        return $this->belongsTo(EventSession::class, 'event_session_id');
+    }
+
+    // The student who scanned
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
     }
 }

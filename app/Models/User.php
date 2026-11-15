@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -39,6 +41,18 @@ class User extends Authenticatable
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    // A user who is a student has one student record
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    // A user can post many announcements
+    public function announcements(): HasMany
+    {
+        return $this->hasMany(Announcement::class);
     }
 
     // True if the user's role is one of the given names, e.g. hasRole('Admin', 'Officer')
