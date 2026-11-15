@@ -1,23 +1,11 @@
-@extends('layouts.app')
+<?php
 
-@section('title', 'Student Dashboard')
+namespace App\Models;
 
-@section('content')
-    <p>Welcome, {{ auth()->user()->first_name }}!</p>
+use Illuminate\Database\Eloquent\Model;
 
-    {{-- Placeholder numbers: real data comes in later phases --}}
-    <div class="cards">
-        <div class="card">
-            <div>Events Attended</div>
-            <div class="number">0</div>
-        </div>
-        <div class="card">
-            <div>Upcoming Events</div>
-            <div class="number">0</div>
-        </div>
-        <div class="card">
-            <div>My Unpaid Fines</div>
-            <div class="number">0</div>
-        </div>
-    </div>
-@endsection
+class Student extends Model
+{
+    // Columns that may be filled in by create() or update()
+    protected $fillable = ['user_id', 'program_id', 'student_no', 'sex', 'year_level'];
+}
