@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Profile</title>
-</head>
-<body>
-    <h1>My Profile</h1>
-    <p><a href="{{ route('main') }}">Back to main page</a></p>
+@extends('layouts.app')
 
-    {{-- Success message after saving --}}
-    @if (session('success'))
-        <div style="color: green;">{{ session('success') }}</div>
-    @endif
+@section('title', 'Edit User')
+
+@section('content')
+    <p><a href="{{ route('admin.users.index') }}">&larr; Back to users</a></p>
 
     {{-- Validation errors --}}
     @if ($errors->any())
-        <div style="color: red;">
+        <div class="flash-error">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -24,7 +16,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('profile.update') }}">
+    <form method="POST" action="{{ route('admin.users.update', $user) }}">
         @csrf
         @method('PUT')
 
@@ -45,11 +37,21 @@
             <input type="email" name="email" value="{{ old('email', $user->email) }}" required>
         </p>
 
-        <h3>Change Password (leave blank to keep your current password)</h3>
         <p>
-            <label>Current Password</label><br>
-            <input type="password" name="current_password">
+            <label>Role</label><br>
+            <select name="role_id" required>
+                @foreach ($roles as $role)
+                    <option value="{{ $role->id }}" @selected(old('role_id', $user->role_id) == $role->id)>{{ $role->name }}</option>
+                @endforeach
+            </select>
         </p>
+        <p>
+            <label>
+                <input type="checkbox" name="is_active" value="1" @checked($errors->any() ? old('is_active') : $user->is_active)> Active
+            </label>
+        </p>
+
+        <h3>Reset Password (leave blank to keep the current password)</h3>
         <p>
             <label>New Password</label><br>
             <input type="password" name="password">
@@ -61,5 +63,4 @@
 
         <button type="submit">Save Changes</button>
     </form>
-</body>
-</html>
+@endsection

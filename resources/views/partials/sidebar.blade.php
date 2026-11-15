@@ -7,7 +7,7 @@
 
         {{-- Admin only --}}
         @if (auth()->user()->hasRole('Admin'))
-            <a href="#">Manage Users</a>
+            <a href="{{ route('admin.users.index') }}">Manage Users</a>
         @endif
 
         {{-- Officers (gate: manage-ssg) --}}

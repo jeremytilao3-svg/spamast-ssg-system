@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MainController;
@@ -33,9 +34,15 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Admin area: URL /admin/dashboard, route name admin.dashboard
+// Admin area: URL /admin/..., route names admin....
 Route::middleware(['auth', 'role:Admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
+
+    // Approve / deactivate an account (full name: admin.users.toggle)
+    Route::patch('users/{user}/toggle', [AdminUserController::class, 'toggle'])->name('users.toggle');
+
+    // List, create, edit and delete users (no "show" page)
+    Route::resource('users', AdminUserController::class)->except('show');
 });
 
 // Officer area: URL /officer/dashboard, route name officer.dashboard

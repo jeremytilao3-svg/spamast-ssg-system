@@ -19,8 +19,7 @@ class RegisterController extends Controller
     // Save a new account (runs when the register form is submitted)
     public function store(Request $request): RedirectResponse
     {
-        // 1. Check the form. If something is wrong, Laravel sends the
-        //    visitor back to the form with error messages.
+        // Check only the fields we allow
         $data = $request->validate([
             'first_name'  => ['required', 'string', 'max:255'],
             'middle_name' => ['nullable', 'string', 'max:255'],
@@ -29,10 +28,11 @@ class RegisterController extends Controller
             'password'    => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        // 2. Public registration always creates a Student
+        // Everyone who registers publicly is a Student (never chosen by the visitor)
         $studentRole = Role::where('name', 'Student')->firstOrFail();
 
-        // 3. Save the user (the password is hashed automatically by the model)
+        // The password is hashed automatically by the model.
+        // is_active is false: an Admin must approve the account first.
         User::create([
             'first_name'  => $data['first_name'],
             'middle_name' => $data['middle_name'] ?? null,
@@ -40,10 +40,10 @@ class RegisterController extends Controller
             'email'       => $data['email'],
             'password'    => $data['password'],
             'role_id'     => $studentRole->id,
+            'is_active'   => false,
         ]);
 
-        // 4. Go to the login page with a success message
         return redirect()->route('login')
-            ->with('success', 'Registration successful. You can now log in.');
+            ->with('success', 'Registration successful. Your account must be approved by an Admin before you can log in.');
     }
 }
