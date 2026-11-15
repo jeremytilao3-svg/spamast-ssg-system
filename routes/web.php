@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\InstituteController;
+use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
@@ -43,6 +45,10 @@ Route::middleware(['auth', 'role:Admin'])->prefix('admin')->name('admin.')->grou
 
     // List, create, edit and delete users (no "show" page)
     Route::resource('users', AdminUserController::class)->except('show');
+
+    // Institutes and programs (no "show" page)
+    Route::resource('institutes', InstituteController::class)->except('show');
+    Route::resource('programs', ProgramController::class)->except('show');
 });
 
 // Officer area: URL /officer/dashboard, route name officer.dashboard
