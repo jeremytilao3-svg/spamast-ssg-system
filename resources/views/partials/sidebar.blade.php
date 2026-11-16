@@ -15,7 +15,7 @@
         {{-- Officers (gate: manage-ssg) --}}
         @can('manage-ssg')
             <a href="{{ route('officer.students.index') }}">Manage Students</a>
-            <a href="#">Manage Events</a>
+            <a href="{{ route('events.index') }}">Manage Events</a>
             <a href="#">Manage Fines</a>
             <a href="#">Announcements</a>
         @endcan

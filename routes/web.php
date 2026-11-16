@@ -69,3 +69,13 @@ Route::middleware(['auth', 'role:Adviser'])->prefix('adviser')->name('adviser.')
 Route::middleware(['auth', 'role:Student'])->prefix('student')->name('student.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'student'])->name('dashboard');
 });
+// Events: Officer, Adviser and Student can view them
+Route::middleware(['auth', 'role:Officer,Adviser,Student'])->group(function () {
+    Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events.index');
+    Route::get('/events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
+});
+
+// Events: only Officers can create, edit and delete them
+Route::middleware(['auth', 'role:Officer'])->prefix('officer')->name('officer.')->group(function () {
+    Route::resource('events', \App\Http\Controllers\Officer\EventController::class)->except(['index', 'show']);
+});
