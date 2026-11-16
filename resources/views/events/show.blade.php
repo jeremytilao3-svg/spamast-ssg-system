@@ -63,6 +63,61 @@
         </tbody>
     </table>
 
+    {{-- Students: scan in and out --}}
+    @can('use-attendance')
+        <h2>My Attendance</h2>
+
+        @php $student = auth()->user()->student; @endphp
+
+        @if (! $student)
+            <p>Your account has no linked student record, so you cannot scan. Please contact the SSG Officer.</p>
+        @else
+            <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; background: #fff;">
+                <thead>
+                    <tr>
+                        <th>Session</th>
+                        <th>My check-in</th>
+                        <th>My check-out</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($event->sessions as $session)
+                        @php $mine = $session->attendances()->where('student_id', $student->id)->first(); @endphp
+                        <tr>
+                            <td>{{ ucfirst(str_replace('_', ' ', $session->period)) }}</td>
+
+                            <td>
+                                @if ($mine)
+                                    {{ $mine->check_in_at->format('h:i A') }}
+                                @elseif ($session->isCheckInOpen())
+                                    <form method="POST" action="{{ route('attendance.check-in', $session) }}">
+                                        @csrf
+                                        <button type="submit">Check in</button>
+                                    </form>
+                                @else
+                                    -
+                                @endif
+                            </td>
+
+                            <td>
+                                @if ($mine && $mine->check_out_at)
+                                    {{ $mine->check_out_at->format('h:i A') }}
+                                @elseif ($mine && $session->isCheckOutOpen())
+                                    <form method="POST" action="{{ route('attendance.check-out', $session) }}">
+                                        @csrf
+                                        <button type="submit">Check out</button>
+                                    </form>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    @endcan
+
     {{-- Edit and Delete: the policy decides who sees them --}}
     <p style="margin-top: 15px;">
         @can('update', $event)

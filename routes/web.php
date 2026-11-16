@@ -84,3 +84,9 @@ Route::middleware(['auth', 'role:Officer'])->prefix('officer')->name('officer.')
 Route::middleware(['auth', 'role:Officer'])->prefix('officer')->name('officer.')->group(function () {
     Route::patch('/sessions/{session}/toggle', [\App\Http\Controllers\Officer\EventSessionController::class, 'toggle'])->name('sessions.toggle');
 });
+
+// Students scan in and out of a session
+Route::middleware(['auth', 'role:Student'])->group(function () {
+    Route::post('/sessions/{session}/check-in', [\App\Http\Controllers\Student\AttendanceController::class, 'checkIn'])->name('attendance.check-in');
+    Route::post('/sessions/{session}/check-out', [\App\Http\Controllers\Student\AttendanceController::class, 'checkOut'])->name('attendance.check-out');
+});
