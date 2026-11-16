@@ -90,3 +90,15 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::post('/sessions/{session}/check-in', [\App\Http\Controllers\Student\AttendanceController::class, 'checkIn'])->name('attendance.check-in');
     Route::post('/sessions/{session}/check-out', [\App\Http\Controllers\Student\AttendanceController::class, 'checkOut'])->name('attendance.check-out');
 });
+
+// Attendance list: Officers and Advisers can view it
+Route::middleware(['auth', 'role:Officer,Adviser'])->group(function () {
+    Route::get('/events/{event}/attendance', [\App\Http\Controllers\AttendanceController::class, 'index'])->name('attendance.index');
+});
+
+// Attendance changes: Officers only
+Route::middleware(['auth', 'role:Officer'])->group(function () {
+    Route::post('/events/{event}/attendance', [\App\Http\Controllers\Officer\AttendanceController::class, 'store'])->name('attendance.store');
+    Route::put('/attendance/{attendance}', [\App\Http\Controllers\Officer\AttendanceController::class, 'update'])->name('attendance.update');
+    Route::delete('/attendance/{attendance}', [\App\Http\Controllers\Officer\AttendanceController::class, 'destroy'])->name('attendance.destroy');
+});
