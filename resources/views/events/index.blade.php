@@ -5,11 +5,22 @@
 @section('content')
     <h1>Events</h1>
 
-    {{-- Search --}}
+    {{-- Tabs: Upcoming and Past --}}
+    <p>
+        <a href="{{ route('events.index', ['tab' => 'upcoming']) }}"
+           style="{{ $tab === 'upcoming' ? 'font-weight: bold; text-decoration: underline;' : '' }}">Upcoming</a>
+        |
+        <a href="{{ route('events.index', ['tab' => 'past']) }}"
+           style="{{ $tab === 'past' ? 'font-weight: bold; text-decoration: underline;' : '' }}">Past</a>
+    </p>
+
+    {{-- Search by title/venue and by date (stays on the same tab) --}}
     <form method="GET" action="{{ route('events.index') }}" style="margin-bottom: 15px;">
+        <input type="hidden" name="tab" value="{{ $tab }}">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search title or venue">
+        <input type="date" name="date" value="{{ request('date') }}">
         <button type="submit">Search</button>
-        <a href="{{ route('events.index') }}">Clear</a>
+        <a href="{{ route('events.index', ['tab' => $tab]) }}">Clear</a>
     </form>
 
     {{-- Only Officers see the create button --}}
@@ -42,7 +53,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7">No events found.</td>
+                    <td colspan="7">No {{ $tab }} events found.</td>
                 </tr>
             @endforelse
         </tbody>

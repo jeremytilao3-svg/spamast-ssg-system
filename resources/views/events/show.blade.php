@@ -118,6 +118,15 @@
         @endif
     @endcan
 
+    {{-- Officers and Advisers: attendance, fines and report --}}
+    @can('view-reports')
+        <p style="margin-top: 15px;">
+            <a href="{{ route('attendance.index', $event) }}">Attendance</a> |
+            <a href="{{ route('penalties.index', $event) }}">Fines</a> |
+            <a href="{{ route('reports.show', $event) }}">Report</a>
+        </p>
+    @endcan
+
     {{-- Edit and Delete: the policy decides who sees them --}}
     <p style="margin-top: 15px;">
         @can('update', $event)

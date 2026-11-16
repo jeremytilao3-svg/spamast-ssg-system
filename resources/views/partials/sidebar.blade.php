@@ -22,11 +22,15 @@
 
         {{-- Officers and Advisers (gate: view-reports) --}}
         @can('view-reports')
+            @if (auth()->user()->hasRole('Adviser'))
+                <a href="{{ route('events.index') }}">Events</a>
+            @endif
             <a href="{{ route('reports.index') }}">Reports</a>
         @endcan
 
         {{-- Students (gate: use-attendance) --}}
         @can('use-attendance')
+            <a href="{{ route('events.index') }}">Events</a>
             <a href="#">My Attendance</a>
             <a href="#">My Fines</a>
         @endcan

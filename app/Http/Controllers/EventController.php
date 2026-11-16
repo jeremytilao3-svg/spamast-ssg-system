@@ -8,24 +8,42 @@ use Illuminate\View\View;
 
 class EventController extends Controller
 {
-    // List events (newest first) with search and pages of 10
+    // List of events (Officer, Adviser and Student): Upcoming or Past tab, search, date
     public function index(Request $request): View
     {
+        // The tab is "upcoming" unless the URL says "past"
+        $tab = $request->query('tab') === 'past' ? 'past' : 'upcoming';
+
         $query = Event::with('sessions');
 
-        if ($search = $request->query('search')) {
+        // Search by title or venue
+        if ($request->filled('search')) {
+            $search = $request->search;
+
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                   ->orWhere('venue', 'like', "%{$search}%");
             });
         }
 
-        $events = $query->orderByDesc('event_date')->paginate(10)->withQueryString();
+        // Search by one date
+        if ($request->filled('date')) {
+            $query->whereDate('event_date', $request->date);
+        }
 
-        return view('events.index', compact('events'));
+        // Upcoming = today or later (soonest first). Past = before today (latest first).
+        if ($tab === 'upcoming') {
+            $query->whereDate('event_date', '>=', today())->orderBy('event_date');
+        } else {
+            $query->whereDate('event_date', '<', today())->orderByDesc('event_date');
+        }
+
+        $events = $query->paginate(10)->withQueryString();
+
+        return view('events.index', compact('events', 'tab'));
     }
 
-    // Show one event with its sessions
+    // One event with its session schedule
     public function show(Event $event): View
     {
         $event->load('sessions', 'creator');
