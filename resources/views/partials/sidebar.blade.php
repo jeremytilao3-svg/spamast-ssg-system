@@ -22,7 +22,7 @@
 
         {{-- Officers and Advisers (gate: view-reports) --}}
         @can('view-reports')
-            <a href="#">Reports</a>
+            <a href="{{ route('reports.index') }}">Reports</a>
         @endcan
 
         {{-- Students (gate: use-attendance) --}}

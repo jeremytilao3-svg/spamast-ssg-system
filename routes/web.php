@@ -114,3 +114,9 @@ Route::middleware(['auth', 'role:Officer'])->group(function () {
     Route::put('/penalties/{penalty}', [\App\Http\Controllers\Officer\PenaltyController::class, 'update'])->name('penalties.update');
     Route::delete('/penalties/{penalty}', [\App\Http\Controllers\Officer\PenaltyController::class, 'destroy'])->name('penalties.destroy');
 });
+
+// Reports: Officers and Advisers can view them
+Route::middleware(['auth', 'role:Officer,Adviser'])->group(function () {
+    Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{event}', [\App\Http\Controllers\ReportController::class, 'show'])->name('reports.show');
+});
