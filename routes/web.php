@@ -102,3 +102,15 @@ Route::middleware(['auth', 'role:Officer'])->group(function () {
     Route::put('/attendance/{attendance}', [\App\Http\Controllers\Officer\AttendanceController::class, 'update'])->name('attendance.update');
     Route::delete('/attendance/{attendance}', [\App\Http\Controllers\Officer\AttendanceController::class, 'destroy'])->name('attendance.destroy');
 });
+
+// Fines list: Officers and Advisers can view it
+Route::middleware(['auth', 'role:Officer,Adviser'])->group(function () {
+    Route::get('/events/{event}/penalties', [\App\Http\Controllers\PenaltyController::class, 'index'])->name('penalties.index');
+});
+
+// Fines changes: Officers only
+Route::middleware(['auth', 'role:Officer'])->group(function () {
+    Route::post('/events/{event}/penalties/generate', [\App\Http\Controllers\Officer\PenaltyController::class, 'generate'])->name('penalties.generate');
+    Route::put('/penalties/{penalty}', [\App\Http\Controllers\Officer\PenaltyController::class, 'update'])->name('penalties.update');
+    Route::delete('/penalties/{penalty}', [\App\Http\Controllers\Officer\PenaltyController::class, 'destroy'])->name('penalties.destroy');
+});
