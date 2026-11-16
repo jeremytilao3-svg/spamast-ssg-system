@@ -79,3 +79,8 @@ Route::middleware(['auth', 'role:Officer,Adviser,Student'])->group(function () {
 Route::middleware(['auth', 'role:Officer'])->prefix('officer')->name('officer.')->group(function () {
     Route::resource('events', \App\Http\Controllers\Officer\EventController::class)->except(['index', 'show']);
 });
+
+// Officers open and close check-in / check-out of manual events
+Route::middleware(['auth', 'role:Officer'])->prefix('officer')->name('officer.')->group(function () {
+    Route::patch('/sessions/{session}/toggle', [\App\Http\Controllers\Officer\EventSessionController::class, 'toggle'])->name('sessions.toggle');
+});

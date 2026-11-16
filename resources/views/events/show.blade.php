@@ -30,12 +30,33 @@
             @foreach ($event->sessions as $session)
                 <tr>
                     <td>{{ ucfirst(str_replace('_', ' ', $session->period)) }}</td>
+
                     @if ($event->availability === 'scheduled')
-                        <td>{{ substr($session->check_in_start, 0, 5) }} - {{ substr($session->check_in_end, 0, 5) }}</td>
-                        <td>{{ substr($session->check_out_start, 0, 5) }} - {{ substr($session->check_out_end, 0, 5) }}</td>
+                        {{-- Scheduled: the clock decides --}}
+                        <td>
+                            {{ substr($session->check_in_start, 0, 5) }} - {{ substr($session->check_in_end, 0, 5) }}
+                            ({{ $session->isCheckInOpen() ? 'Open now' : 'Closed now' }})
+                        </td>
+                        <td>
+                            {{ substr($session->check_out_start, 0, 5) }} - {{ substr($session->check_out_end, 0, 5) }}
+                            ({{ $session->isCheckOutOpen() ? 'Open now' : 'Closed now' }})
+                        </td>
                     @else
-                        <td>{{ $session->check_in_open ? 'Open' : 'Closed' }}</td>
-                        <td>{{ $session->check_out_open ? 'Open' : 'Closed' }}</td>
+                        {{-- Manual: the Officer opens and closes by hand --}}
+                        @foreach (['check_in' => 'Check-in', 'check_out' => 'Check-out'] as $type => $label)
+                            <td>
+                                {{ $session->{$type . '_open'} ? 'Open' : 'Closed' }}
+
+                                @can('update', $event)
+                                    <form method="POST" action="{{ route('officer.sessions.toggle', $session) }}" style="display: inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="type" value="{{ $type }}">
+                                        <button type="submit">{{ $session->{$type . '_open'} ? 'Close' : 'Open' }}</button>
+                                    </form>
+                                @endcan
+                            </td>
+                        @endforeach
                     @endif
                 </tr>
             @endforeach

@@ -40,4 +40,37 @@ class EventSession extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    // Is check-in open right now?
+    public function isCheckInOpen(): bool
+    {
+        return $this->isOpen('check_in');
+    }
+
+    // Is check-out open right now?
+    public function isCheckOutOpen(): bool
+    {
+        return $this->isOpen('check_out');
+    }
+
+    // $type is 'check_in' or 'check_out'
+    private function isOpen(string $type): bool
+    {
+        // Manual events: the Officer's switch decides
+        if ($this->event->availability === 'manual') {
+            return (bool) $this->{$type . '_open'};
+        }
+
+        // Scheduled events: only on the event date...
+        if (! $this->event->event_date->isToday()) {
+            return false;
+        }
+
+        // ...and only between the start and end time
+        $start = $this->{$type . '_start'};
+        $end = $this->{$type . '_end'};
+        $now = now()->format('H:i:s');
+
+        return $start && $end && $now >= $start && $now <= $end;
+    }
 }
