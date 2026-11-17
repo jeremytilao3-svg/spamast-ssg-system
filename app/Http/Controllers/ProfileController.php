@@ -29,6 +29,7 @@ class ProfileController extends Controller
             // Password change is optional; if used, the current password is required
             'current_password' => ['nullable', 'required_with:password', 'current_password'],
             'password'         => ['nullable', 'string', 'min:8', 'confirmed'],
+            'photo'            => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
         // Only these fields may change (never role_id, is_active or is_admin)
@@ -40,6 +41,14 @@ class ProfileController extends Controller
         // Change the password only if a new one was typed (the model hashes it)
         if (! empty($data['password'])) {
             $user->password = $data['password'];
+        }
+
+        // New profile photo: delete the old file, then store the new one
+        if ($request->hasFile('photo')) {
+            if ($user->photo) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->photo);
+            }
+            $user->photo = $request->file('photo')->store('avatars', 'public');
         }
 
         $user->save();

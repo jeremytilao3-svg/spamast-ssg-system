@@ -38,7 +38,11 @@
 
     {{-- Real name, initials and role of the logged-in user --}}
     <div class="profile-box">
-        <span class="avatar">{{ $initials }}</span>
+        @if ($user->photo)
+            <img class="avatar" src="{{ asset('storage/'.$user->photo) }}" alt="{{ $user->first_name }}" style="object-fit: cover;">
+        @else
+            <span class="avatar">{{ $initials }}</span>
+        @endif
         <div class="name">{{ $user->first_name }} {{ $user->last_name }}</div>
         <div class="role">{{ $user->role->name }}</div>
 
