@@ -21,7 +21,7 @@
         <select name="institute_id">
             <option value="">All institutes</option>
             @foreach ($institutes as $institute)
-                <option value="{{ $institute->id }}" @selected(request('institute_id') == $institute->id)>
+                <option value="{{ $institute->id }}" @selected($instituteId == $institute->id)>
                     {{ $institute->code }}
                 </option>
             @endforeach
@@ -30,14 +30,14 @@
         <select name="program_id">
             <option value="">All programs</option>
             @foreach ($programs as $program)
-                <option value="{{ $program->id }}" @selected(request('program_id') == $program->id)>
+                <option value="{{ $program->id }}" @selected($programId == $program->id)>
                     {{ $program->code }}
                 </option>
             @endforeach
         </select>
 
         <button type="submit">Filter</button>
-        <a href="{{ route('attendance.index', $event) }}">Clear Filters</a>
+        <a href="{{ route('attendance.index', [$event, 'clear' => 1]) }}">Clear Filters</a>
     </form>
 
     {{-- Officers can add or fix a scan --}}

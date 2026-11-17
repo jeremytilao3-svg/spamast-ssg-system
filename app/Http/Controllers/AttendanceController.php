@@ -18,6 +18,23 @@ class AttendanceController extends Controller
     {
         $event->load('sessions');
 
+        // Institute and program filters are remembered in the session
+        if ($request->boolean('clear')) {
+            // "Clear Filters": forget the saved filters
+            session()->forget(['filters.institute_id', 'filters.program_id']);
+            $instituteId = null;
+            $programId = null;
+        } elseif ($request->hasAny(['institute_id', 'program_id'])) {
+            // The form was submitted: use these values and save them for next time
+            $instituteId = $request->input('institute_id');
+            $programId = $request->input('program_id');
+            session(['filters.institute_id' => $instituteId, 'filters.program_id' => $programId]);
+        } else {
+            // Nothing in the URL: use what was saved before
+            $instituteId = session('filters.institute_id');
+            $programId = session('filters.program_id');
+        }
+
         // Eager loading: student, user, program, institute and session are loaded together
         $query = Attendance::with(['student.user', 'student.program.institute', 'session'])
             ->whereHas('session', fn ($q) => $q->where('event_id', $event->id));
@@ -28,13 +45,13 @@ class AttendanceController extends Controller
         }
 
         // Filter: institute
-        if ($request->filled('institute_id')) {
-            $query->whereHas('student.program', fn ($q) => $q->where('institute_id', $request->institute_id));
+        if (filled($instituteId)) {
+            $query->whereHas('student.program', fn ($q) => $q->where('institute_id', $instituteId));
         }
 
         // Filter: program
-        if ($request->filled('program_id')) {
-            $query->whereHas('student', fn ($q) => $q->where('program_id', $request->program_id));
+        if (filled($programId)) {
+            $query->whereHas('student', fn ($q) => $q->where('program_id', $programId));
         }
 
         $attendances = $query->orderBy('event_session_id')
@@ -50,6 +67,8 @@ class AttendanceController extends Controller
             ? Student::with('user')->orderBy('student_no')->get()
             : collect();
 
-        return view('attendance.index', compact('event', 'attendances', 'institutes', 'programs', 'students'));
+        return view('attendance.index', compact(
+            'event', 'attendances', 'institutes', 'programs', 'students', 'instituteId', 'programId'
+        ));
     }
 }
