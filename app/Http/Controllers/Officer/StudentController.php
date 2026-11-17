@@ -112,6 +112,8 @@ class StudentController extends Controller
             );
         });
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('officer.students.index')->with('success', 'Student created.');
     }
 
@@ -157,6 +159,8 @@ class StudentController extends Controller
             ]);
         });
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('officer.students.index')->with('success', 'Student updated.');
     }
 
@@ -165,6 +169,8 @@ class StudentController extends Controller
     {
         $student->user->delete();
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('officer.students.index')->with('success', 'Student deleted.');
     }
 }

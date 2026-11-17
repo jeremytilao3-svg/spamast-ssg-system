@@ -70,6 +70,7 @@ class UserController extends Controller
             'is_active'   => $request->boolean('is_active'),
         ]);
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.users.index')->with('success', 'User created.');
     }
 
@@ -115,6 +116,7 @@ class UserController extends Controller
 
         $user->save();
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.users.index')->with('success', 'User updated.');
     }
 
@@ -126,6 +128,7 @@ class UserController extends Controller
         }
 
         $user->update(['is_active' => ! $user->is_active]);
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
 
         return back()->with('success', $user->is_active ? 'Account activated.' : 'Account deactivated.');
     }
@@ -137,6 +140,7 @@ class UserController extends Controller
 
         $user->delete();
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.users.index')->with('success', 'User deleted.');
     }
 }

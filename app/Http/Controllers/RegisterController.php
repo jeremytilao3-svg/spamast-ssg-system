@@ -43,6 +43,7 @@ class RegisterController extends Controller
             'is_active'   => false,
         ]);
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('login')
             ->with('success', 'Registration successful. Your account must be approved by an Admin before you can log in.');
     }

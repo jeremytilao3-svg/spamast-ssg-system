@@ -5,19 +5,27 @@
 @section('content')
     <p>Welcome, {{ auth()->user()->first_name }}!</p>
 
-    {{-- Placeholder numbers: real data comes in later phases --}}
+    {{-- Real numbers come from DashboardController (cached for 10 minutes) --}}
     <div class="cards">
-        <div class="card">
-            <div>Total Users</div>
-            <div class="number">0</div>
-        </div>
+        {{-- One card per role: Admin, Officer, Adviser, Student --}}
+        @foreach (['Admin', 'Officer', 'Adviser', 'Student'] as $role)
+            <div class="card">
+                <div>{{ $role }}s</div>
+                <div class="number">{{ $stats['users_per_role'][$role] ?? 0 }}</div>
+            </div>
+        @endforeach
+
         <div class="card">
             <div>Pending Approvals</div>
-            <div class="number">0</div>
+            <div class="number">{{ $stats['pending'] }}</div>
         </div>
         <div class="card">
-            <div>Active Events</div>
-            <div class="number">0</div>
+            <div>Institutes</div>
+            <div class="number">{{ $stats['institutes'] }}</div>
+        </div>
+        <div class="card">
+            <div>Programs</div>
+            <div class="number">{{ $stats['programs'] }}</div>
         </div>
     </div>
 @endsection

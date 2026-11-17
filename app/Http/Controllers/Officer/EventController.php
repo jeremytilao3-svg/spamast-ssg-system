@@ -93,6 +93,8 @@ class EventController extends Controller
             }
         });
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
         return redirect()->route('events.index')->with('success', 'Event created.');
     }
 
@@ -141,6 +143,8 @@ class EventController extends Controller
             }
         });
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
         return redirect()->route('events.show', $event)->with('success', 'Event updated.');
     }
 
@@ -151,6 +155,8 @@ class EventController extends Controller
 
         $event->delete();   // its sessions are removed by cascade
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
         return redirect()->route('events.index')->with('success', 'Event deleted.');
     }
 }

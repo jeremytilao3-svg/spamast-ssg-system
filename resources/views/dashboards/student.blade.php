@@ -5,19 +5,15 @@
 @section('content')
     <p>Welcome, {{ auth()->user()->first_name }}!</p>
 
-    {{-- Placeholder numbers: real data comes in later phases --}}
+    {{-- Real numbers come from DashboardController (cached 10 minutes, one key per student) --}}
     <div class="cards">
         <div class="card">
-            <div>Events Attended</div>
-            <div class="number">0</div>
+            <div>My Attendance Records</div>
+            <div class="number">{{ $stats['my_attendance'] }}</div>
         </div>
         <div class="card">
             <div>Upcoming Events</div>
-            <div class="number">0</div>
-        </div>
-        <div class="card">
-            <div>My Unpaid Fines</div>
-            <div class="number">0</div>
+            <div class="number">{{ $stats['upcoming_events'] }}</div>
         </div>
     </div>
 @endsection

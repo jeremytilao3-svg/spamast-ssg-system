@@ -5,19 +5,19 @@
 @section('content')
     <p>Welcome, {{ auth()->user()->first_name }}!</p>
 
-    {{-- Placeholder numbers: real data comes in later phases --}}
+    {{-- Real numbers come from DashboardController (cached for 10 minutes) --}}
     <div class="cards">
         <div class="card">
-            <div>Events This Month</div>
-            <div class="number">0</div>
+            <div>Upcoming Events</div>
+            <div class="number">{{ $stats['upcoming_events'] }}</div>
         </div>
         <div class="card">
-            <div>Average Attendance</div>
-            <div class="number">0%</div>
+            <div>Attendance Records</div>
+            <div class="number">{{ $stats['attendance_records'] }}</div>
         </div>
         <div class="card">
-            <div>Reports Available</div>
-            <div class="number">0</div>
+            <div>Unpaid Fines</div>
+            <div class="number">{{ $stats['unpaid_fines'] }}</div>
         </div>
     </div>
 @endsection

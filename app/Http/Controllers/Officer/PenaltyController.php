@@ -45,6 +45,8 @@ class PenaltyController extends Controller
             }
         });
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
         return redirect()->route('penalties.index', $event)->with('success', 'Fines generated.');
     }
 
@@ -58,6 +60,8 @@ class PenaltyController extends Controller
 
         $penalty->update($data);
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
         return back()->with('success', 'Fine updated.');
     }
 
@@ -66,6 +70,8 @@ class PenaltyController extends Controller
     {
         $penalty->delete();
 
+        \Illuminate\Support\Facades\Cache::forget('officer.stats');
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
         return back()->with('success', 'Fine deleted.');
     }
 }

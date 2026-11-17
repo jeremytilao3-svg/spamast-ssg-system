@@ -32,6 +32,8 @@ class AttendanceController extends Controller
             return back()->with('error', 'You already checked in.');
         }
 
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
+        \Illuminate\Support\Facades\Cache::forget('student.stats.' . $request->user()->id);
         return back()->with('success', 'Checked in.');
     }
 

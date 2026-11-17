@@ -58,6 +58,7 @@ class ProgramController extends Controller
             'updated_at'   => now(),
         ]);
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.programs.index')->with('success', 'Program created.');
     }
 
@@ -91,6 +92,7 @@ class ProgramController extends Controller
             'updated_at'   => now(),
         ]);
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.programs.index')->with('success', 'Program updated.');
     }
 
@@ -103,6 +105,7 @@ class ProgramController extends Controller
 
         DB::table('programs')->where('id', $program)->delete();
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.programs.index')->with('success', 'Program deleted.');
     }
 }

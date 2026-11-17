@@ -51,6 +51,7 @@ class InstituteController extends Controller
             'updated_at' => now(),
         ]);
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.institutes.index')->with('success', 'Institute created.');
     }
 
@@ -80,6 +81,7 @@ class InstituteController extends Controller
             'updated_at' => now(),
         ]);
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.institutes.index')->with('success', 'Institute updated.');
     }
 
@@ -92,6 +94,7 @@ class InstituteController extends Controller
 
         DB::table('institutes')->where('id', $institute)->delete();
 
+        \Illuminate\Support\Facades\Cache::forget('admin.stats');
         return redirect()->route('admin.institutes.index')->with('success', 'Institute deleted.');
     }
 }

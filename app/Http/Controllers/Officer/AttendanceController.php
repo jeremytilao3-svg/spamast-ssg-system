@@ -28,6 +28,8 @@ class AttendanceController extends Controller
             ['check_in_at' => $data['check_in_at'] ?? null, 'check_out_at' => $data['check_out_at'] ?? null]
         );
 
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
+        \Illuminate\Support\Facades\Cache::forget('student.stats.' . \App\Models\Student::find($data['student_id'])?->user_id);
         return redirect()->route('attendance.index', $event)->with('success', 'Attendance saved.');
     }
 
@@ -44,6 +46,8 @@ class AttendanceController extends Controller
             'check_out_at' => $data['check_out_at'] ?? null,
         ]);
 
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
+        \Illuminate\Support\Facades\Cache::forget('student.stats.' . $attendance->student?->user_id);
         return back()->with('success', 'Attendance updated.');
     }
 
@@ -52,6 +56,8 @@ class AttendanceController extends Controller
     {
         $attendance->delete();
 
+        \Illuminate\Support\Facades\Cache::forget('adviser.stats');
+        \Illuminate\Support\Facades\Cache::forget('student.stats.' . $attendance->student?->user_id);
         return back()->with('success', 'Attendance deleted.');
     }
 }
