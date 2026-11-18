@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class AnnouncementController extends Controller
@@ -40,7 +41,7 @@ class AnnouncementController extends Controller
 
         // Store the file (if any) in storage/app/public/announcements
         $path = $request->hasFile('attachment')
-            ? $request->file('attachment')->store('announcements', 'public')
+            ? $request->file('attachment')->storeAs('announcements', $this->attachmentName($request), 'public')
             : null;
 
         Announcement::create([
@@ -76,7 +77,7 @@ class AnnouncementController extends Controller
             if ($path) {
                 Storage::disk('public')->delete($path);
             }
-            $path = $request->file('attachment')->store('announcements', 'public');
+            $path = $request->file('attachment')->storeAs('announcements', $this->attachmentName($request), 'public');
         }
 
         $announcement->update([
@@ -102,5 +103,13 @@ class AnnouncementController extends Controller
         Cache::forget('officer.stats');
 
         return redirect()->route('announcements.index')->with('success', 'Announcement deleted.');
+    }
+
+    /**
+     * Readable, unique file name: slug of the title + 8 random characters + extension.
+     */
+    private function attachmentName(Request $request): string
+    {
+        return Str::slug($request->input('title')) . '-' . Str::random(8) . '.' . $request->file('attachment')->extension();
     }
 }

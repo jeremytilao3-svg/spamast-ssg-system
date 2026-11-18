@@ -14,7 +14,7 @@
 
     <p>
         {{ $event->venue }} &middot; {{ $event->event_date->format('F d, Y') }}
-        &middot; {{ $event->day_type === 'whole_day' ? 'Whole day' : 'Half day' }}
+        &middot; {{ Str::headline($event->day_type) }}
     </p>
 
     <p class="no-print">
@@ -78,7 +78,7 @@
                     <td>{{ $row->last_name }}, {{ $row->first_name }}</td>
                     <td>{{ $row->program_code }}</td>
                     <td>{{ $row->institute_code }}</td>
-                    <td>{{ ucfirst(str_replace('_', ' ', $row->period)) }}</td>
+                    <td>{{ Str::headline($row->period) }}</td>
                     <td>{{ $row->check_in_at?->format('h:i A') ?? '-' }}</td>
                     <td>{{ $row->check_out_at?->format('h:i A') ?? '-' }}</td>
                 </tr>

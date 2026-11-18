@@ -30,7 +30,7 @@
         <select name="status">
             <option value="">All statuses</option>
             @foreach (['unpaid', 'paid', 'served'] as $status)
-                <option value="{{ $status }}" @selected(request('status') === $status)>{{ ucfirst($status) }}</option>
+                <option value="{{ $status }}" @selected(request('status') === $status)>{{ Str::headline($status) }}</option>
             @endforeach
         </select>
 
@@ -84,7 +84,7 @@
                                 <input type="text" name="sanction" value="{{ $penalty->sanction }}" placeholder="Sanction">
                                 <select name="status">
                                     @foreach (['unpaid', 'paid', 'served'] as $status)
-                                        <option value="{{ $status }}" @selected($penalty->status === $status)>{{ ucfirst($status) }}</option>
+                                        <option value="{{ $status }}" @selected($penalty->status === $status)>{{ Str::headline($status) }}</option>
                                     @endforeach
                                 </select>
                                 <button type="submit">Update</button>
@@ -101,7 +101,7 @@
                     @else
                         {{-- Adviser: view only --}}
                         <td>{{ $penalty->sanction ?: '-' }}</td>
-                        <td>{{ ucfirst($penalty->status) }}</td>
+                        <td>{{ Str::headline($penalty->status) }}</td>
                     @endcan
                 </tr>
             @empty

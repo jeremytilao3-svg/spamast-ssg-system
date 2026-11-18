@@ -46,8 +46,8 @@
                     <td>{{ $event->title }}</td>
                     <td>{{ $event->venue }}</td>
                     <td>{{ $event->event_date->format('M d, Y') }}</td>
-                    <td>{{ $event->day_type === 'whole_day' ? 'Whole day' : 'Half day' }}</td>
-                    <td>{{ ucfirst($event->availability) }}</td>
+                    <td>{{ Str::headline($event->day_type) }}</td>
+                    <td>{{ Str::headline($event->availability) }}</td>
                     <td>₱{{ number_format($event->fine_per_miss, 2) }}</td>
                     <td><a href="{{ route('events.show', $event) }}">View</a></td>
                 </tr>

@@ -11,7 +11,7 @@
         <p><strong>Venue:</strong> {{ $event->venue }}</p>
         <p><strong>Date:</strong> {{ $event->event_date->format('F d, Y') }}</p>
         <p><strong>Day type:</strong> {{ $event->day_type === 'whole_day' ? 'Whole day (4 scans)' : 'Half day (2 scans)' }}</p>
-        <p><strong>Availability:</strong> {{ ucfirst($event->availability) }}</p>
+        <p><strong>Availability:</strong> {{ Str::headline($event->availability) }}</p>
         <p><strong>Fine per miss:</strong> ₱{{ number_format($event->fine_per_miss, 2) }}</p>
         <p><strong>Created by:</strong> {{ $event->creator?->first_name }} {{ $event->creator?->last_name }}</p>
         <p><strong>Description:</strong> {{ $event->description ?: 'No description.' }}</p>
@@ -29,7 +29,7 @@
         <tbody>
             @foreach ($event->sessions as $session)
                 <tr>
-                    <td>{{ ucfirst(str_replace('_', ' ', $session->period)) }}</td>
+                    <td>{{ Str::headline($session->period) }}</td>
 
                     @if ($event->availability === 'scheduled')
                         {{-- Scheduled: the clock decides --}}
@@ -84,7 +84,7 @@
                     @foreach ($event->sessions as $session)
                         @php $mine = $session->attendances()->where('student_id', $student->id)->first(); @endphp
                         <tr>
-                            <td>{{ ucfirst(str_replace('_', ' ', $session->period)) }}</td>
+                            <td>{{ Str::headline($session->period) }}</td>
 
                             <td>
                                 @if ($mine)

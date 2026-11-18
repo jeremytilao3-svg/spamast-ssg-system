@@ -18,6 +18,7 @@
         <thead>
             <tr>
                 <th>Title</th>
+                <th>Preview</th>
                 <th>Posted by</th>
                 <th>Date</th>
                 <th>Attachment</th>
@@ -27,13 +28,14 @@
             @forelse ($announcements as $announcement)
                 <tr>
                     <td><a href="{{ route('announcements.show', $announcement) }}">{{ $announcement->title }}</a></td>
-                    <td>{{ $announcement->user->first_name }} {{ $announcement->user->last_name }}</td>
+                    <td>{{ Str::limit($announcement->body, 120) }}</td>
+                    <td>{{ $announcement->user->full_name }}</td>
                     <td>{{ $announcement->created_at->format('M d, Y h:i A') }}</td>
                     <td>{{ $announcement->attachment ? 'Yes' : '-' }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">No announcements yet.</td>
+                    <td colspan="5">No announcements yet.</td>
                 </tr>
             @endforelse
         </tbody>

@@ -6,7 +6,7 @@
     <p><a href="{{ route('announcements.index') }}">&larr; Back to announcements</a></p>
 
     <h2>{{ $announcement->title }}</h2>
-    <p>Posted by {{ $announcement->user->first_name }} {{ $announcement->user->last_name }}
+    <p>Posted by {{ $announcement->user->full_name }}
         on {{ $announcement->created_at->format('M d, Y h:i A') }}</p>
 
     {{-- e() makes the text safe, nl2br() keeps the line breaks --}}

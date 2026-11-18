@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 // Columns that may be filled in by create() or update()
 #[Fillable(['first_name', 'last_name', 'middle_name', 'email', 'password', 'role_id', 'is_active', 'is_admin'])]
@@ -70,5 +71,11 @@ class User extends Authenticatable
             'Adviser' => 'adviser.dashboard',
             default   => 'student.dashboard',
         };
+    }
+
+    // Accessor: $user->full_name (first + middle + last, extra spaces removed)
+    public function getFullNameAttribute(): string
+    {
+        return Str::squish($this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name);
     }
 }

@@ -13,7 +13,7 @@
             <option value="">All sessions</option>
             @foreach ($event->sessions as $session)
                 <option value="{{ $session->id }}" @selected(request('session_id') == $session->id)>
-                    {{ ucfirst(str_replace('_', ' ', $session->period)) }}
+                    {{ Str::headline($session->period) }}
                 </option>
             @endforeach
         </select>
@@ -56,7 +56,7 @@
             <select name="event_session_id" required>
                 <option value="">Session</option>
                 @foreach ($event->sessions as $session)
-                    <option value="{{ $session->id }}">{{ ucfirst(str_replace('_', ' ', $session->period)) }}</option>
+                    <option value="{{ $session->id }}">{{ Str::headline($session->period) }}</option>
                 @endforeach
             </select>
 
@@ -99,7 +99,7 @@
                     <td>{{ $attendance->student->user->last_name }}, {{ $attendance->student->user->first_name }}</td>
                     <td>{{ $attendance->student->program->code }}</td>
                     <td>{{ $attendance->student->program->institute->code }}</td>
-                    <td>{{ ucfirst(str_replace('_', ' ', $attendance->session->period)) }}</td>
+                    <td>{{ Str::headline($attendance->session->period) }}</td>
 
                     @can('manage-ssg')
                         {{-- Officer: edit the times in the row --}}
