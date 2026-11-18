@@ -120,3 +120,14 @@ Route::middleware(['auth', 'role:Officer,Adviser'])->group(function () {
     Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/{event}', [\App\Http\Controllers\ReportController::class, 'show'])->name('reports.show');
 });
+
+// Announcements: everyone who is logged in can read them
+Route::middleware(['auth', 'role:Officer,Adviser,Student'])->group(function () {
+    Route::get('/announcements', [\App\Http\Controllers\AnnouncementController::class, 'index'])->name('announcements.index');
+    Route::get('/announcements/{announcement}', [\App\Http\Controllers\AnnouncementController::class, 'show'])->name('announcements.show');
+});
+
+// Announcements: only Officers can create, edit and delete
+Route::middleware(['auth', 'role:Officer'])->prefix('officer')->name('officer.')->group(function () {
+    Route::resource('announcements', \App\Http\Controllers\Officer\AnnouncementController::class)->except(['index', 'show']);
+});

@@ -20,4 +20,5 @@
             <div class="number">{{ $stats['unpaid_fines'] }}</div>
         </div>
     </div>
+    @include('dashboards._latest-announcements')
 @endsection

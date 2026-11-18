@@ -16,4 +16,5 @@
             <div class="number">{{ $stats['upcoming_events'] }}</div>
         </div>
     </div>
+    @include('dashboards._latest-announcements')
 @endsection

@@ -51,7 +51,8 @@ class DashboardController extends Controller
             ];
         });
 
-        return view('dashboards.officer', compact('stats'));
+        $latest = Announcement::latest()->take(3)->get();
+        return view('dashboards.officer', compact('stats', 'latest'));
     }
 
     public function adviser(): View
@@ -64,7 +65,8 @@ class DashboardController extends Controller
             ];
         });
 
-        return view('dashboards.adviser', compact('stats'));
+        $latest = Announcement::latest()->take(3)->get();
+        return view('dashboards.adviser', compact('stats', 'latest'));
     }
 
     public function student(Request $request): View
@@ -81,6 +83,7 @@ class DashboardController extends Controller
             ];
         });
 
-        return view('dashboards.student', compact('stats'));
+        $latest = Announcement::latest()->take(3)->get();
+        return view('dashboards.student', compact('stats', 'latest'));
     }
 }

@@ -17,13 +17,14 @@
             <a href="{{ route('officer.students.index') }}">Manage Students</a>
             <a href="{{ route('events.index') }}">Manage Events</a>
             <a href="#">Manage Fines</a>
-            <a href="#">Announcements</a>
+            <a href="{{ route('announcements.index') }}">Announcements</a>
         @endcan
 
         {{-- Officers and Advisers (gate: view-reports) --}}
         @can('view-reports')
             @if (auth()->user()->hasRole('Adviser'))
                 <a href="{{ route('events.index') }}">Events</a>
+                <a href="{{ route('announcements.index') }}">Announcements</a>
             @endif
             <a href="{{ route('reports.index') }}">Reports</a>
         @endcan
@@ -31,6 +32,7 @@
         {{-- Students (gate: use-attendance) --}}
         @can('use-attendance')
             <a href="{{ route('events.index') }}">Events</a>
+        <a href="{{ route('announcements.index') }}">Announcements</a>
             <a href="#">My Attendance</a>
             <a href="#">My Fines</a>
         @endcan
