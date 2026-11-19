@@ -89,4 +89,33 @@
             @endforelse
         </tbody>
     </table>
+
+    {{-- Fine summary: total fines per program --}}
+    <h2>Fines by program</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Program</th>
+                <th>Students fined</th>
+                <th>Total fines</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($fineSummary as $row)
+                <tr>
+                    <td>{{ $row['program']?->code ?? 'No program' }}</td>
+                    <td>{{ $row['students'] }}</td>
+                    <td>PHP {{ number_format($row['total'], 2) }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3">No fines for this event.</td>
+                </tr>
+            @endforelse
+            <tr>
+                <th colspan="2">Grand total</th>
+                <th>PHP {{ number_format($grandTotal, 2) }}</th>
+            </tr>
+        </tbody>
+    </table>
 @endsection

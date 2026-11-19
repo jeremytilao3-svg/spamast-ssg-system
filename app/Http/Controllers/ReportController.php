@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Penalty;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -77,6 +78,27 @@ class ReportController extends Controller
                 return $row;
             });
 
-        return view('reports.show', compact('event', 'summary', 'grand', 'students'));
+        // Fines: every penalty of this event, with each student's program loaded
+        $penalties = Penalty::with('student.program')
+            ->where('event_id', $event->id)
+            ->get();
+
+        // Step 1: group the penalties by program code (one bucket per program)
+        // Step 2: turn each bucket into one row: program, number of students, total fines
+        // Step 3: biggest total first, then renumber the list from 0
+        $fineSummary = $penalties
+            ->groupBy(fn ($penalty) => $penalty->student?->program?->code ?? 'No program')
+            ->map(fn ($group) => [
+                'program'  => $group->first()->student?->program,
+                'students' => $group->pluck('student_id')->unique()->count(),
+                'total'    => $group->sum('amount'),
+            ])
+            ->sortByDesc('total')
+            ->values();
+
+        // Grand total of all fines of the event (must match the fines page)
+        $grandTotal = $penalties->sum('amount');
+
+        return view('reports.show', compact('event', 'summary', 'grand', 'students', 'fineSummary', 'grandTotal'));
     }
 }
