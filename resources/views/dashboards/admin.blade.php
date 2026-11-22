@@ -28,4 +28,5 @@
             <div class="number">{{ $stats['programs'] }}</div>
         </div>
     </div>
+    @include('partials.weather')
 @endsection

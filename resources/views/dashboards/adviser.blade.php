@@ -21,4 +21,5 @@
         </div>
     </div>
     @include('dashboards._latest-announcements')
+    @include('partials.weather')
 @endsection

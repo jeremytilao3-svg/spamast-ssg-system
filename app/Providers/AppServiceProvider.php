@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Services\WeatherService;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,5 +33,10 @@ class AppServiceProvider extends ServiceProvider
 
         // Only Students use the attendance (QR) feature
         Gate::define('use-attendance', fn (User $user) => $user->hasRole('Student'));
+
+        // Weather: give the weather box its data every time it is shown
+        View::composer('partials.weather', function ($view) {
+            $view->with('weather', app(WeatherService::class)->current());
+        });
     }
 }

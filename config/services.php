@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+
+    // Weather widget (Open-Meteo): campus location from .env
+    'weather' => [
+        'url' => 'https://api.open-meteo.com/v1/forecast',
+        'lat' => env('WEATHER_LAT'),
+        'lon' => env('WEATHER_LON'),
+    ],
 ];
