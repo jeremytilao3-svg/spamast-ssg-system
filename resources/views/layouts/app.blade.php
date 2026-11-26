@@ -37,6 +37,25 @@
         .cards { display: flex; gap: 15px; flex-wrap: wrap; }
         .card { background: #fff; border-radius: 6px; padding: 20px; min-width: 180px; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
         .card .number { font-size: 28px; font-weight: bold; }
+
+        /* Tables */
+        .content table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.1); margin-bottom: 15px; }
+        .content th { background: #1e3a5f; color: #fff; text-align: left; padding: 10px 12px; font-size: 14px; border: 1px solid #1e3a5f; }
+        .content td { padding: 9px 12px; font-size: 14px; border: 1px solid #e5e7eb; }
+        .content tr:nth-child(even) td { background: #f9fafb; }
+
+        /* Headings and links */
+        .content h2 { color: #1e3a5f; margin: 24px 0 12px; }
+        .content h3 { color: #1e3a5f; }
+        .content a { color: #1d4ed8; }
+
+        /* Buttons */
+        .content button, .content input[type=submit] { background: #1e3a5f; color: #fff; border: 0; padding: 7px 14px; border-radius: 5px; cursor: pointer; font-size: 14px; }
+        .content button:hover, .content input[type=submit]:hover { background: #16304f; }
+
+        /* Form fields */
+        .content input[type=text], .content input[type=email], .content input[type=password], .content input[type=number], .content input[type=date], .content input[type=time], .content input[type=datetime-local], .content select, .content textarea { padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 5px; font-size: 14px; background: #fff; }
+        .content input:focus, .content select:focus, .content textarea:focus { outline: none; border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,.15); }
     </style>
 </head>
 <body>
