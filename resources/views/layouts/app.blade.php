@@ -56,6 +56,30 @@
         /* Form fields */
         .content input[type=text], .content input[type=email], .content input[type=password], .content input[type=number], .content input[type=date], .content input[type=time], .content input[type=datetime-local], .content select, .content textarea { padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 5px; font-size: 14px; background: #fff; }
         .content input:focus, .content select:focus, .content textarea:focus { outline: none; border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,.15); }
+        .content table th, .content thead th { background: #1e3a5f !important; color: #fff !important; }
+
+        /* Dashboard cards: colored top line and bigger numbers */
+        .card { border-top: 4px solid #1e3a5f; transition: transform .15s; }
+        .card:hover { transform: translateY(-2px); }
+        .card .number { font-size: 34px; color: #1e3a5f; }
+        .cards .card:nth-child(4n+1) { border-top-color: #1e3a5f; }
+        .cards .card:nth-child(4n+2) { border-top-color: #f59e0b; }
+        .cards .card:nth-child(4n+3) { border-top-color: #16a34a; }
+        .cards .card:nth-child(4n+4) { border-top-color: #dc2626; }
+
+        /* Sidebar: highlight the page that is open */
+        .sidebar nav a.active { background: rgba(255,255,255,.18); color: #fff; font-weight: bold; border-left: 4px solid #f59e0b; padding-left: 16px; }
+
+        /* Weather card */
+        .weather-card { background: linear-gradient(135deg, #1e3a5f, #2d5a8e); color: #fff; border-radius: 10px; padding: 20px; max-width: 340px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+        .weather-title { font-size: 13px; opacity: .85; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+        .weather-main { display: flex; align-items: center; gap: 12px; }
+        .weather-icon { font-size: 46px; line-height: 1; }
+        .weather-temp { font-size: 40px; font-weight: bold; }
+        .weather-label { font-size: 16px; margin: 4px 0 12px; }
+        .weather-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .weather-chips span { background: rgba(255,255,255,.18); padding: 4px 10px; border-radius: 20px; font-size: 13px; }
+        .weather-card small, .weather-card a { color: #dbe7f5; font-size: 12px; }
     </style>
 </head>
 <body>
