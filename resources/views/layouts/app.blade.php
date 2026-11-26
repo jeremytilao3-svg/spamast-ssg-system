@@ -80,6 +80,18 @@
         .weather-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
         .weather-chips span { background: rgba(255,255,255,.18); padding: 4px 10px; border-radius: 20px; font-size: 13px; }
         .weather-card small, .weather-card a { color: #dbe7f5; font-size: 12px; }
+
+        /* Polish */
+        body { font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif; }
+        .card { border-radius: 12px; box-shadow: 0 2px 8px rgba(30,58,95,.08); }
+        .card:hover { box-shadow: 0 8px 20px rgba(30,58,95,.15); }
+        .sidebar nav a { transition: background .15s; }
+        .sidebar nav a:hover { background: rgba(255,255,255,.1); }
+        .content table { box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+        .content tbody tr:nth-child(even) { background: #f8fafc; }
+        .content tbody tr:hover { background: #fff7e6; }
+        .content input:focus, .content select:focus, .content textarea:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.25); }
+        .content h2 { color: #1e3a5f; }
     </style>
 </head>
 <body>

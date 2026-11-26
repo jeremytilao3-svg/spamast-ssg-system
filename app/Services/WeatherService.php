@@ -21,7 +21,7 @@ class WeatherService
     private function fetch(): ?array
     {
         try {
-            $response = Http::timeout(3)->get(config('services.weather.url'), [
+            $response = Http::timeout(10)->get(config('services.weather.url'), [
                 'latitude'  => config('services.weather.lat'),
                 'longitude' => config('services.weather.lon'),
                 'timezone'  => 'Asia/Manila',
